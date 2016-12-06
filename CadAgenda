@@ -1,0 +1,77 @@
+using CAD.SIWEDataSetTableAdapters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CAD
+{
+   public class CADAgenda
+    {
+        public int Idagenda { get; set; }
+        public int Idsede { get; set; }
+        public string Evento_agenda { get; set; }
+        public DateTime Fecha_agenda { get; set; }
+        public int Duracion_agenda { get; set; }
+        public string Direccion_agenda { get; set; }
+
+        private static AgendaTableAdapter adaptador = new AgendaTableAdapter();
+
+        public static CADAgenda GetDataByFecha(DateTime Fecha)
+        {
+            CADAgenda agenda = null;
+
+            SIWEDataSet.AgendaDataTable miTabla = adaptador.GetDataByFecha(Fecha);
+
+            if (miTabla.Rows.Count == 0)
+            {
+                return agenda;
+            }
+
+            SIWEDataSet.AgendaRow miRegistro = (SIWEDataSet.AgendaRow)miTabla.Rows[0];
+
+            agenda = new CADAgenda();
+
+            agenda.Direccion_agenda = miRegistro.Direccion_agenda;
+            agenda.Duracion_agenda = miRegistro.Duracion_agenda;
+            agenda.Evento_agenda = miRegistro.Evento_agenda;
+            agenda.Fecha_agenda = miRegistro.Fecha_agenda;
+            agenda.Idagenda = miRegistro.Idagenda;
+            agenda.Idsede = miRegistro.Idsede;
+
+            return agenda;
+        }
+
+        public static void UpdateAgenda (int Idagenda, int Idsede, string Evento_agenda, 
+            DateTime Fecha_agenda, int Duracion_agenda, string Direccion_agenda)
+        {
+            adaptador.UpdateAgenda(Idagenda, Idsede, Evento_agenda, Fecha_agenda, 
+                Duracion_agenda, Direccion_agenda);
+        }
+
+        public static void InsertAgenda(int Idagenda, int Idsede, string Evento_agenda, 
+            DateTime Fecha_agenda, int Duracion_agenda, string Direccion_agenda)
+        {
+            adaptador.InsertAgenda(Idagenda, Idsede, Evento_agenda, Fecha_agenda, 
+                Duracion_agenda, Direccion_agenda);
+        }
+
+
+        public static SIWEDataSet.AgendaDataTable
+            GetAgendaByIdagenda(int Idagenda)
+        {
+            return adaptador.GetAgendaByIdagenda(Idagenda);
+        }
+
+        public static SIWEDataSet.AgendaDataTable GetData()
+        {
+            return adaptador.GetData();
+        }
+
+        public static void DeleteAgenda(int Idagenda)
+        {
+            adaptador.DeleteAgenda(Idagenda);
+        }
+    }
+}
